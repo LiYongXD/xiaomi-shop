@@ -84,6 +84,10 @@ flutter:
     - assets/images/hot_search.png
     - assets/images/2.0x/hot_search.png
     - assets/images/3.0x/hot_search.png
+    - assets/images/3.0x/service.png
+    - assets/images/2.0x/service.png
+    - assets/images/service.png
+
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
