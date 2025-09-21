@@ -14,7 +14,7 @@ class ThridPageView extends GetView {
             key: controller.gk3,
             alignment: Alignment.center,
             width: ScreenAdapter.width(1080),
-            height: ScreenAdapter.height(2000),
+            height: ScreenAdapter.height(4000),
             color: Colors.red,
             child: const Text(
               '推荐',

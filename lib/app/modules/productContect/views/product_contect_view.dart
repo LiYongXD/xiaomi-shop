@@ -12,6 +12,98 @@ import '../controllers/product_contect_controller.dart';
 class ProductContectView extends GetView<ProductContectController> {
   const ProductContectView({super.key});
 
+  Widget subHeader() {
+    return Container(
+            // key: controller.gk2,
+            alignment: Alignment.center,
+            color: Colors.white,
+            width: ScreenAdapter.width(1080),
+            height: ScreenAdapter.height(80),
+            child: Row(
+              children: [
+                Expanded(
+                  
+                  child: Container(
+                    alignment: Alignment.center,
+                  child: Text('商品介绍',
+                  style: TextStyle(color: Colors.red),),
+                )
+                ),
+                Expanded(
+                  child: Container(
+                  alignment: Alignment.center,
+                  child: Text('规格参数'),
+                ))
+              ],
+            )
+          );
+  }
+   // showBottomAttr
+  void showBottomAttr() {
+    Get.bottomSheet(GetBuilder<ProductContectController>(
+      init: controller,
+      builder: (controller) {
+        return Container(
+          color: Colors.white,
+          width: double.infinity,
+          height: ScreenAdapter.height(1200),
+          padding: EdgeInsets.all(ScreenAdapter.width(20)),
+          child: ListView(
+            children: [
+              Wrap(
+                  children: controller.pcontent.value.attr!.map((value) {
+                return Wrap(
+                  children: [
+                    Container(
+                      color: Colors.white,
+                      padding: EdgeInsets.only(top: ScreenAdapter.height(20)),
+                      width: ScreenAdapter.width(1040),
+                      child: Text(
+                        '${value.cate}',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(
+                          top: ScreenAdapter.height(20),
+                          left: ScreenAdapter.width(20)),
+                      width: ScreenAdapter.width(1040),
+                      child: Wrap(
+                        children: value.attrList!.map((v) {
+                          return InkWell(
+                            onTap: () {
+                              controller.changeAttr(value.cate, v['title']);
+                            },
+                            child: Container(
+                              margin: EdgeInsets.all(ScreenAdapter.width(40)),
+                              child: Chip(
+                                  padding: EdgeInsets.only(
+                                      left: ScreenAdapter.width(20),
+                                      right: ScreenAdapter.width(20)),
+                                  backgroundColor:
+                                      Color.fromARGB(31, 223, 213, 213),
+                                  label: Text(
+                                    v['title'],
+                                    style: TextStyle(
+                                        color: v['checked']
+                                            ? Colors.red
+                                            : Colors.black),
+                                  )),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  ],
+                );
+              }).toList())
+            ],
+          ),
+        );
+      },
+    ));
+  }
+
   Widget _appBar(context) {
     return Obx(() => AppBar(
           title: SizedBox(
@@ -60,13 +152,14 @@ class ProductContectView extends GetView<ProductContectController> {
             ),
           ),
           leading: Container(
-            color: Colors.red,
             alignment: Alignment.center,
             child: SizedBox(
               width: ScreenAdapter.width(88),
               height: ScreenAdapter.width(88),
               child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.back();
+                  },
                   style: ButtonStyle(
                       padding: WidgetStateProperty.all(const EdgeInsets.all(0)),
                       alignment: Alignment.center,
@@ -86,8 +179,7 @@ class ProductContectView extends GetView<ProductContectController> {
               height: ScreenAdapter.width(88),
               margin: EdgeInsets.only(right: ScreenAdapter.width(10)),
               child: ElevatedButton(
-                  onPressed: () {
-                  },
+                  onPressed: () {},
                   style: ButtonStyle(
                       padding: WidgetStateProperty.all(EdgeInsets.all(0)),
                       alignment: Alignment.center,
@@ -103,35 +195,51 @@ class ProductContectView extends GetView<ProductContectController> {
               child: ElevatedButton(
                   onPressed: () {
                     showMenu(
-                      context: context, 
-                    position: RelativeRect.fromLTRB(ScreenAdapter.width(200), ScreenAdapter.height(180), ScreenAdapter.width(20), 0),
-                    color: Colors.black87.withOpacity(0.7),
-                    items: [
-                      PopupMenuItem(
-                        child: Row(
-                          children: const [
-                            Icon(Icons.home,color: Colors.white,),
-                            Text('首页',style: TextStyle(color: Colors.white),)
-                          ],
-                        )
-                      ),
-                      PopupMenuItem(
-                        child: Row(
-                          children: const [
-                            Icon(Icons.message,color: Colors.white),
-                            Text('消息',style: TextStyle(color: Colors.white),)
-                          ],
-                        )
-                      ),
-                      PopupMenuItem(
-                        child: Row(
-                          children: const [
-                            Icon(Icons.favorite,color: Colors.white,),
-                            Text('收藏',style: TextStyle(color: Colors.white),)
-                          ],
-                        )
-                      ),
-                    ]);
+                        context: context,
+                        position: RelativeRect.fromLTRB(
+                            ScreenAdapter.width(200),
+                            ScreenAdapter.height(180),
+                            ScreenAdapter.width(20),
+                            0),
+                        color: Colors.black87.withOpacity(0.7),
+                        items: [
+                          PopupMenuItem(
+                              child: Row(
+                            children: const [
+                              Icon(
+                                Icons.home,
+                                color: Colors.white,
+                              ),
+                              Text(
+                                '首页',
+                                style: TextStyle(color: Colors.white),
+                              )
+                            ],
+                          )),
+                          PopupMenuItem(
+                              child: Row(
+                            children: const [
+                              Icon(Icons.message, color: Colors.white),
+                              Text(
+                                '消息',
+                                style: TextStyle(color: Colors.white),
+                              )
+                            ],
+                          )),
+                          PopupMenuItem(
+                              child: Row(
+                            children: const [
+                              Icon(
+                                Icons.favorite,
+                                color: Colors.white,
+                              ),
+                              Text(
+                                '收藏',
+                                style: TextStyle(color: Colors.white),
+                              )
+                            ],
+                          )),
+                        ]);
                   },
                   style: ButtonStyle(
                       padding: WidgetStateProperty.all(const EdgeInsets.all(0)),
@@ -149,7 +257,7 @@ class ProductContectView extends GetView<ProductContectController> {
     return SingleChildScrollView(
         controller: controller.scrollController,
         child: Column(children: [
-          FirstPageView(),
+          FirstPageView(showBottomAttr),
           SecondPageView(),
           ThridPageView()
         ]));
@@ -157,15 +265,16 @@ class ProductContectView extends GetView<ProductContectController> {
 
   Widget _bottom() {
     return Positioned(
-      bottom: 0,
-      left: 0,
-      right: 0,
-      child: Container(
-        height: ScreenAdapter.height(180),
+        bottom: 0,
+        left: 0,
+        right: 0,
+        child: Container(
+          height: ScreenAdapter.height(180),
           decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border(top: BorderSide(width: ScreenAdapter.width(2),color: Colors.black12))
-          ),
+              color: Colors.white,
+              border: Border(
+                  top: BorderSide(
+                      width: ScreenAdapter.width(2), color: Colors.black12))),
           child: Row(
             children: [
               Container(
@@ -173,59 +282,60 @@ class ProductContectView extends GetView<ProductContectController> {
                 height: ScreenAdapter.height(160),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children:  [
+                  children: [
                     Icon(Icons.shopping_cart),
-                    Text('购物车',style: TextStyle(
-                      fontSize: ScreenAdapter.fontSize(32)
-                    ),)
+                    Text(
+                      '购物车',
+                      style: TextStyle(fontSize: ScreenAdapter.fontSize(32)),
+                    )
                   ],
                 ),
               ),
               Expanded(
-                flex:1,
-                child: Container(
-                  margin: EdgeInsets.only(right: ScreenAdapter.width(20)),
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor: WidgetStateProperty.all(const Color.fromRGBO(255,165,0,0.9)),
-                      foregroundColor: WidgetStateProperty.all(Colors.white),
-                      shape: WidgetStateProperty.all(
-                        // CircleBorder(),
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)
-                        )
-                      )
-                    ),
-                    onPressed: () {
-                      
-                    }, child: Text('加入购物车',style: TextStyle(
-                      fontSize: ScreenAdapter.fontSize(32)
-                    ),)),
-                )
-              ),
+                  flex: 1,
+                  child: Container(
+                    margin: EdgeInsets.only(right: ScreenAdapter.width(20)),
+                    child: ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor: WidgetStateProperty.all(
+                                const Color.fromRGBO(255, 165, 0, 0.9)),
+                            foregroundColor:
+                                WidgetStateProperty.all(Colors.white),
+                            shape: WidgetStateProperty.all(
+                                // CircleBorder(),
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10)))),
+                        onPressed: () {
+                          showBottomAttr();
+                        },
+                        child: Text(
+                          '加入购物车',
+                          style:
+                              TextStyle(fontSize: ScreenAdapter.fontSize(32)),
+                        )),
+                  )),
               Expanded(
-                flex:1,
-                child: Container(
-                  margin: EdgeInsets.only(right: ScreenAdapter.width(20)),
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor: WidgetStateProperty.all(const Color.fromRGBO(253,1,0,0.9)),
-                      foregroundColor: WidgetStateProperty.all(Colors.white),
-                      shape: WidgetStateProperty.all(
-                        // CircleBorder(),
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)
-                        )
-                      )
-                    ),
-                    onPressed: () {
-                      
-                    }, child: Text('立即购买')),
-                )
-              )
+                  flex: 1,
+                  child: Container(
+                    margin: EdgeInsets.only(right: ScreenAdapter.width(20)),
+                    child: ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor: WidgetStateProperty.all(
+                                const Color.fromRGBO(253, 1, 0, 0.9)),
+                            foregroundColor:
+                                WidgetStateProperty.all(Colors.white),
+                            shape: WidgetStateProperty.all(
+                                // CircleBorder(),
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10)))),
+                        onPressed: () {
+                          showBottomAttr();
+                        },
+                        child: Text('立即购买')),
+                  ))
             ],
           ),
-      ));
+        ));
   }
 
   @override
@@ -236,11 +346,11 @@ class ProductContectView extends GetView<ProductContectController> {
             preferredSize: Size.fromHeight(ScreenAdapter.height(120)),
             child: _appBar(context)),
         body: Stack(
-          children: [
-            _body(),
-            _bottom()
-          ],
-        )
-      );
+          children: [_body(), _bottom(),Positioned(
+            top: ScreenAdapter.getStatusBarHeight() + ScreenAdapter.height(118),
+            left: 0,
+            right: 0,
+            child: subHeader())],
+        ));
   }
 }

@@ -16,9 +16,9 @@ class TabsController extends GetxController {
     CartView(),
   ];
 
-  PageController pageController = PageController(initialPage: 1);
+  PageController pageController = PageController(initialPage: 0);
 
-  RxInt currentIndex = 1.obs;
+  RxInt currentIndex = 0.obs;
 
   @override
   void onInit() {
