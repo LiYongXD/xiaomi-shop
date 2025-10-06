@@ -7,32 +7,22 @@ import 'package:xmshop/app/services/sreeenAdapter.dart';
 class SecondPageView extends GetView {
   @override
   final ProductContectController controller = Get.find();
-   SecondPageView({super.key});
+  final Function subHeader;
+
+  SecondPageView(this.subHeader, {super.key});
   @override
   Widget build(BuildContext context) {
     return Container(
-            key: controller.gk2,
-            alignment: Alignment.center,
-            width: ScreenAdapter.width(1080),
-            // height: ScreenAdapter.height(1500),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Container(
-                    color: Colors.blue,
-                    // alignment: Alignment.center,
-                  child: Text('商品介绍',
-                  style: TextStyle(color: Colors.red),),
-                )
-                ),
-                Expanded(
-                  child: Container(
-                  // alignment: Alignment.center,
-                  child: Text('规格参数'),
-                ))
-              ],
-            )
-          );
+        color: Colors.green,
+        key: controller.gk2,
+        alignment: Alignment.center,
+        width: ScreenAdapter.width(1080),
+        height: ScreenAdapter.height(2000),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            subHeader()
+          ],
+        ));
   }
 }

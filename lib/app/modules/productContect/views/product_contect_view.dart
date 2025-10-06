@@ -12,7 +12,7 @@ import '../controllers/product_contect_controller.dart';
 class ProductContectView extends GetView<ProductContectController> {
   const ProductContectView({super.key});
 
-  Widget subHeader() {
+  Widget _subHeader() {
     return Container(
             // key: controller.gk2,
             alignment: Alignment.center,
@@ -22,7 +22,6 @@ class ProductContectView extends GetView<ProductContectController> {
             child: Row(
               children: [
                 Expanded(
-                  
                   child: Container(
                     alignment: Alignment.center,
                   child: Text('商品介绍',
@@ -109,7 +108,7 @@ class ProductContectView extends GetView<ProductContectController> {
           title: SizedBox(
             width: ScreenAdapter.width(400),
             height: ScreenAdapter.height(96),
-            child: Row(
+            child: controller.showTabs.value ? Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: controller.tabsList.map((v) {
@@ -148,8 +147,8 @@ class ProductContectView extends GetView<ProductContectController> {
                     ),
                   ),
                 );
-              }).toList(),
-            ),
+              }).toList() ,
+            ): Text(''),
           ),
           leading: Container(
             alignment: Alignment.center,
@@ -171,7 +170,7 @@ class ProductContectView extends GetView<ProductContectController> {
           ),
           centerTitle: true,
           backgroundColor:
-              Colors.white.withOpacity(controller.opcity.value), // touming
+              Colors.white.withOpacity( (controller.opcity.value / 1).clamp(0.0,1.0)), // touming
           elevation: 0, // touming
           actions: [
             Container(
@@ -258,10 +257,11 @@ class ProductContectView extends GetView<ProductContectController> {
         controller: controller.scrollController,
         child: Column(children: [
           FirstPageView(showBottomAttr),
-          SecondPageView(),
+          SecondPageView(_subHeader),
           ThridPageView()
         ]));
   }
+
 
   Widget _bottom() {
     return Positioned(
@@ -346,11 +346,14 @@ class ProductContectView extends GetView<ProductContectController> {
             preferredSize: Size.fromHeight(ScreenAdapter.height(120)),
             child: _appBar(context)),
         body: Stack(
-          children: [_body(), _bottom(),Positioned(
+          children: [_body(), _bottom(),
+          Obx(() => controller.showSubHeaderTabs.value ? 
+          Positioned(
             top: ScreenAdapter.getStatusBarHeight() + ScreenAdapter.height(118),
             left: 0,
             right: 0,
-            child: subHeader())],
+            child: _subHeader()): Text('')),
+          ],
         ));
   }
 }

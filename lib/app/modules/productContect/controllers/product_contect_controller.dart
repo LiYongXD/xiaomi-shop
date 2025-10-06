@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:xmshop/app/models/category_model.dart';
 import 'package:xmshop/app/models/pcontent_model.dart';
 import 'package:xmshop/app/services/httpsClient.dart';
+import 'package:xmshop/app/services/sreeenAdapter.dart';
 
 class ProductContectController extends GetxController {
   //TODO: Implement ProductContectController
@@ -17,9 +18,14 @@ class ProductContectController extends GetxController {
 
   RxBool showTabs = false.obs;
 
+  double gk2Position = 0;
+  double gk3Position = 0;
+
   GlobalKey gk1 = GlobalKey();
   GlobalKey gk2 = GlobalKey();
   GlobalKey gk3 = GlobalKey();
+
+  RxBool showSubHeaderTabs = false.obs;
 
   HttpsClient httpsClient = HttpsClient();
 
@@ -44,6 +50,7 @@ class ProductContectController extends GetxController {
   @override
   void onReady() {
     super.onReady();
+
   }
 
   @override
@@ -53,9 +60,33 @@ class ProductContectController extends GetxController {
 
   void scrollControllerListener() {
     scrollController.addListener(() {
+      print('scrollController.position.pixels--- ${scrollController.position.pixels} gk2Position--- ${gk2Position}00000 scrollController.position.pixels--- ${scrollController.position.pixels} gk3Position--- ${gk3Position}');
+      
+      if(gk2Position == 0 && gk3Position == 0) {
+        print(scrollController.position.pixels);
+        print('第一次get');
+        getContainerPosition(scrollController.position.pixels);
+      }
+      // 获取渲染后的元素位置
+      if(scrollController.position.pixels > gk2Position && scrollController.position.pixels < gk3Position) {
+        if (showSubHeaderTabs.value == false ) {
+          showSubHeaderTabs.value = true;
+        }
+      }else {
+        if( showSubHeaderTabs.value == true ) {
+          showSubHeaderTabs.value = false;
+        }
+      }
+      
+      // if(gk2Position == 0 && gk3Position == 0) {
+        // getContainerPosition();
+      // } 
       if (scrollController.position.pixels <= 100) {
         opcity.value = scrollController.position.pixels / 100;
         print(opcity.value);
+        if (opcity.value > 0.9) {
+          opcity.value = 1;
+        }
         if (showTabs.value == true) {
           showTabs.value = false;
           update();
@@ -114,6 +145,24 @@ class ProductContectController extends GetxController {
       initAttr(pcontentAttr);
       update();
     }
+  }
+
+  getContainerPosition(pixels) {
+    RenderBox box2 = gk2.currentContext!.findRenderObject() as RenderBox;
+    gk2Position = box2.localToGlobal(Offset.zero).dy+ pixels - (ScreenAdapter.getStatusBarHeight() + ScreenAdapter.height(120));
+
+    RenderBox box3 = gk3.currentContext!.findRenderObject() as RenderBox;
+    gk3Position = box3.localToGlobal(Offset.zero).dy+ pixels - (ScreenAdapter.getStatusBarHeight() + ScreenAdapter.height(120));
+
+    print(box2.localToGlobal(Offset.zero).dy);
+    print(pixels);
+    print((ScreenAdapter.getScreenHeight()));
+    print(( ScreenAdapter.height(120)));
+    
+    print('gk2---- $gk2Position');
+
+    print('gk3---- $gk3Position');
+    
   }
 
   void increment() => count.value++;
