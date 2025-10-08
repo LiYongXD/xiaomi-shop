@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -13,31 +15,34 @@ class ProductContectView extends GetView<ProductContectController> {
   const ProductContectView({super.key});
 
   Widget _subHeader() {
-    return Container(
-            // key: controller.gk2,
-            alignment: Alignment.center,
-            color: Colors.white,
-            width: ScreenAdapter.width(1080),
-            height: ScreenAdapter.height(80),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    alignment: Alignment.center,
-                  child: Text('商品介绍',
-                  style: TextStyle(color: Colors.red),),
-                )
-                ),
-                Expanded(
-                  child: Container(
-                  alignment: Alignment.center,
-                  child: Text('规格参数'),
-                ))
-              ],
-            )
-          );
+    return Obx(() => Container(
+        // key: controller.gk2,
+        alignment: Alignment.center,
+        color: Colors.white,
+        width: ScreenAdapter.width(1080),
+        height: ScreenAdapter.height(80),
+        child: Row(
+            children: controller.subTabsList.map((e) {
+          return Expanded(
+              child: InkWell(
+            onTap: () {
+              controller.changeSelectedSubTabsIndex(e['id']);
+            },
+            child: Container(
+              alignment: Alignment.center,
+              child: Text(
+                '${e['title']}',
+                style: TextStyle(
+                    color: controller.selectedSubTabsIndex == e['id']
+                        ? Colors.red
+                        : Colors.black),
+              ),
+            ),
+          ));
+        }).toList())));
   }
-   // showBottomAttr
+
+  // showBottomAttr
   void showBottomAttr() {
     Get.bottomSheet(GetBuilder<ProductContectController>(
       init: controller,
@@ -108,47 +113,57 @@ class ProductContectView extends GetView<ProductContectController> {
           title: SizedBox(
             width: ScreenAdapter.width(400),
             height: ScreenAdapter.height(96),
-            child: controller.showTabs.value ? Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: controller.tabsList.map((v) {
-                return InkWell(
-                  onTap: () {
-                    controller.changeSelectedIndex(v['id']);
-                    if (v['id'] == 1) {
-                      Scrollable.ensureVisible(
-                          controller.gk1.currentContext as BuildContext);
-                    } else if (v['id'] == 2) {
-                      Scrollable.ensureVisible(
-                          controller.gk2.currentContext as BuildContext);
-                    } else {
-                      Scrollable.ensureVisible(
-                          controller.gk3.currentContext as BuildContext);
-                    }
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.all(0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(v['title'],
-                            style: TextStyle(
-                                fontSize: ScreenAdapter.fontSize(36))),
-                        v['id'] == controller.selectedTabsIndex.value
-                            ? Container(
-                                margin: EdgeInsets.only(
-                                    top: ScreenAdapter.height(15)),
-                                width: ScreenAdapter.width(100),
-                                height: ScreenAdapter.height(2),
-                                color: Colors.red,
-                              )
-                            : Container(),
-                      ],
-                    ),
-                  ),
-                );
-              }).toList() ,
-            ): Text(''),
+            child: controller.showTabs.value
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: controller.tabsList.map((v) {
+                      return InkWell(
+                        onTap: () {
+                          controller.changeSelectedIndex(v['id']);
+                          if (v['id'] == 1) {
+                            Scrollable.ensureVisible(
+                                controller.gk1.currentContext as BuildContext,duration: const Duration(milliseconds: 100));
+                          } else if (v['id'] == 2) {
+                            Scrollable.ensureVisible( 
+                                controller.gk2.currentContext as BuildContext,duration: const Duration(milliseconds: 100));
+                                Timer.periodic(const Duration(milliseconds: 101), (timer) {
+                                controller.scrollController.jumpTo(controller.scrollController.position.pixels - ScreenAdapter.height(120));
+                                  timer.cancel();
+                                });
+                          } else {
+                            Scrollable.ensureVisible(
+                                controller.gk3.currentContext as BuildContext,duration: const Duration(milliseconds: 100));
+                                Timer.periodic(const Duration(milliseconds: 101), (timer) {
+                                controller.scrollController.jumpTo(controller.scrollController.position.pixels - ScreenAdapter.height(120));
+                                  timer.cancel();
+                                });
+                          }
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.all(0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(v['title'],
+                                  style: TextStyle(
+                                      fontSize: ScreenAdapter.fontSize(36))),
+                              v['id'] == controller.selectedTabsIndex.value
+                                  ? Container(
+                                      margin: EdgeInsets.only(
+                                          top: ScreenAdapter.height(15)),
+                                      width: ScreenAdapter.width(100),
+                                      height: ScreenAdapter.height(2),
+                                      color: Colors.red,
+                                    )
+                                  : Container(),
+                            ],
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  )
+                : Text(''),
           ),
           leading: Container(
             alignment: Alignment.center,
@@ -169,8 +184,8 @@ class ProductContectView extends GetView<ProductContectController> {
             ),
           ),
           centerTitle: true,
-          backgroundColor:
-              Colors.white.withOpacity( (controller.opcity.value / 1).clamp(0.0,1.0)), // touming
+          backgroundColor: Colors.white.withOpacity(
+              (controller.opcity.value / 1).clamp(0.0, 1.0)), // touming
           elevation: 0, // touming
           actions: [
             Container(
@@ -262,7 +277,6 @@ class ProductContectView extends GetView<ProductContectController> {
         ]));
   }
 
-
   Widget _bottom() {
     return Positioned(
         bottom: 0,
@@ -346,13 +360,17 @@ class ProductContectView extends GetView<ProductContectController> {
             preferredSize: Size.fromHeight(ScreenAdapter.height(120)),
             child: _appBar(context)),
         body: Stack(
-          children: [_body(), _bottom(),
-          Obx(() => controller.showSubHeaderTabs.value ? 
-          Positioned(
-            top: ScreenAdapter.getStatusBarHeight() + ScreenAdapter.height(118),
-            left: 0,
-            right: 0,
-            child: _subHeader()): Text('')),
+          children: [
+            _body(),
+            _bottom(),
+            Obx(() => controller.showSubHeaderTabs.value
+                ? Positioned(
+                    top: ScreenAdapter.getStatusBarHeight() +
+                        ScreenAdapter.height(118),
+                    left: 0,
+                    right: 0,
+                    child: _subHeader())
+                : Text('')),
           ],
         ));
   }

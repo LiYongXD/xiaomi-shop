@@ -27,11 +27,24 @@ class ProductContectController extends GetxController {
 
   RxBool showSubHeaderTabs = false.obs;
 
+  List subTabsList = [
+    {
+      'id': 1,
+      'title': '商品介绍',
+    },
+    {
+      'id': 2,
+      'title': '规格参数'
+    }
+  ];
+
   HttpsClient httpsClient = HttpsClient();
 
   var pcontent = PContentItemModel().obs;
 
   RxList<PContentAttrModel> pcontentAttr = <PContentAttrModel>[].obs;
+
+  RxInt selectedSubTabsIndex = 1.obs;
 
   List tabsList = [
     {"id": 1, "title": '商品'},
@@ -68,19 +81,31 @@ class ProductContectController extends GetxController {
         getContainerPosition(scrollController.position.pixels);
       }
       // 获取渲染后的元素位置
-      if(scrollController.position.pixels > gk2Position && scrollController.position.pixels < gk3Position) {
-        if (showSubHeaderTabs.value == false ) {
-          showSubHeaderTabs.value = true;
-        }
-      }else {
-        if( showSubHeaderTabs.value == true ) {
+      if(scrollController.position.pixels >= 0 && scrollController.position.pixels < gk2Position) {
+
+        if (showSubHeaderTabs.value == true ) {
           showSubHeaderTabs.value = false;
+                  selectedTabsIndex.value = 1;
+          update();
         }
+      }else if(scrollController.position.pixels >= gk2Position && scrollController.position.pixels < gk3Position){
+
+        if( showSubHeaderTabs.value == false ) {
+          showSubHeaderTabs.value = true;
+        
+
+        }
+        selectedTabsIndex.value = 2;
+        update();
+      } else if(scrollController.position.pixels >= gk3Position){
+        if (showSubHeaderTabs.value == true ) {
+          // showSubHeaderTabs.value = false;
+        
+        }
+        selectedTabsIndex.value = 3;
+        update();
       }
       
-      // if(gk2Position == 0 && gk3Position == 0) {
-        // getContainerPosition();
-      // } 
       if (scrollController.position.pixels <= 100) {
         opcity.value = scrollController.position.pixels / 100;
         print(opcity.value);
@@ -131,6 +156,14 @@ class ProductContectController extends GetxController {
     update();
   }
 
+  changeSelectedSubTabsIndex(index) {
+    selectedSubTabsIndex.value = index;
+    if(selectedSubTabsIndex.value == 2) {
+    scrollController.jumpTo(gk2Position) ;
+    }
+    update();
+  }
+
   //获取详情数据
   getContentData() async {
     var response =
@@ -141,6 +174,7 @@ class ProductContectController extends GetxController {
       var tempData = PContentModel.fromJson(response.data);
       print(tempData);
       pcontent.value = tempData.result!;
+      
       pcontentAttr.value = pcontent.value.attr!;
       initAttr(pcontentAttr);
       update();

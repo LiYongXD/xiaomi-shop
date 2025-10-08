@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 import 'package:get/get.dart';
 import 'package:xmshop/app/modules/productContect/controllers/product_contect_controller.dart';
@@ -13,15 +14,32 @@ class SecondPageView extends GetView {
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: Colors.green,
         key: controller.gk2,
         alignment: Alignment.center,
-        width: ScreenAdapter.width(1080),
-        height: ScreenAdapter.height(2000),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            subHeader()
+            subHeader(),
+            Obx(() => controller.selectedSubTabsIndex.value == 1
+                ? Container(
+                    alignment: Alignment.center,
+                    child: Html(
+                      data: controller.pcontent.value.content ?? '',
+                      style: {
+                        "body": Style(backgroundColor: Colors.white),
+                        'p': Style(fontSize: FontSize.large)
+                      },
+                    ),
+                  )
+                : Container(
+                    alignment: Alignment.center,
+                    child: Html(
+                      data: controller.pcontent.value.specs ?? '',
+                      style: {
+                        "body": Style(backgroundColor: Colors.white),
+                        'p': Style(fontSize: FontSize.large)
+                      },
+                    ),
+                  ))
           ],
         ));
   }

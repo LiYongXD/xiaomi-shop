@@ -12,13 +12,13 @@ class TabsController extends GetxController {
     HomeView(),
     CategoryView(),
     GiveView(),
-    UserView(),
     CartView(),
+    UserView(),
   ];
 
-  PageController pageController = PageController(initialPage: 0);
+  PageController pageController = PageController(initialPage: 3);
 
-  RxInt currentIndex = 0.obs;
+  RxInt currentIndex = 3.obs;
 
   @override
   void onInit() {
