@@ -27,4 +27,9 @@ class Storage {
     prefs.clear();
   }
 
+    static clear(String key) async {
+    var prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+  }
+
 }

@@ -8,7 +8,7 @@ import 'package:xmshop/app/modules/user/views/user_view.dart';
 
 class TabsController extends GetxController {
   //TODO: Implement TabsController
-  final List<Widget> pages = const [
+  final List<Widget> pages =  [
     HomeView(),
     CategoryView(),
     GiveView(),

@@ -7,6 +7,7 @@ abstract class Routes {
   static const PRODUCT_LIS = _Paths.PRODUCT_LIS;
   static const XM_SEARCH = _Paths.XM_SEARCH;
   static const PRODUCT_CONTECT = _Paths.PRODUCT_CONTECT;
+  static const Cart = _Paths.Cart;
 }
 
 abstract class _Paths {
@@ -15,4 +16,5 @@ abstract class _Paths {
   static const PRODUCT_LIS = '/product-lis';
   static const XM_SEARCH = '/xm-search';
   static const PRODUCT_CONTECT = '/product-contect';
+  static const Cart = '/cart';
 }

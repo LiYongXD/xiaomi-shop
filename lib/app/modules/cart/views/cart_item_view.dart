@@ -5,7 +5,8 @@ import 'package:xmshop/app/services/sreeenAdapter.dart';
 
 class CartItemView extends GetView{
 
-  const CartItemView({super.key});
+  const CartItemView(this.cartItem,{super.key});
+  final Map cartItem;
 
   @override
   Widget build(BuildContext context) {
@@ -37,21 +38,23 @@ class CartItemView extends GetView{
           Expanded(child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('小米11',style: TextStyle(
+              Text('${cartItem['title']}',style: TextStyle(
                 fontSize: ScreenAdapter.fontSize(36),
                 fontWeight: FontWeight.bold
               ),),
               SizedBox(height: ScreenAdapter.height(20),),
-              Row(children: [ const Chip(label: Text('黑色'))],),
+              Row(children: [ Chip(label: Text('${cartItem['selectedAttr']}'))],),
               SizedBox(height: ScreenAdapter.height(20),),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('￥98.9', style: TextStyle(
+                  Text('${cartItem['price']}', style: TextStyle(
                     fontSize: ScreenAdapter.fontSize(38),
                     color: Colors.red
                   ),),
-                  const CartItemNumView()
+                   CartItemNumView(
+                    cartItem
+                   )
                 ],
               )
             ],

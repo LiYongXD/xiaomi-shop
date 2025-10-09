@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:xmshop/app/models/category_model.dart';
 import 'package:xmshop/app/models/pcontent_model.dart';
+import 'package:xmshop/app/services/cartServices.dart';
 import 'package:xmshop/app/services/httpsClient.dart';
 import 'package:xmshop/app/services/sreeenAdapter.dart';
 
@@ -27,6 +28,9 @@ class ProductContectController extends GetxController {
 
   RxBool showSubHeaderTabs = false.obs;
 
+    //购买的数量
+  RxInt buyNum = 1.obs;
+
   List subTabsList = [
     {
       'id': 1,
@@ -45,6 +49,23 @@ class ProductContectController extends GetxController {
   RxList<PContentAttrModel> pcontentAttr = <PContentAttrModel>[].obs;
 
   RxInt selectedSubTabsIndex = 1.obs;
+
+    //保存筛选属性值
+  RxString selectedAttr = "".obs;
+
+  //增加数量
+  incBuyNum() {
+    buyNum.value++;
+    update();
+  }
+
+  //减少数量
+  decBuyNum() {
+    if (buyNum.value > 1) {
+      buyNum.value--;
+      update();
+    }
+  }
 
   List tabsList = [
     {"id": 1, "title": '商品'},
@@ -92,15 +113,12 @@ class ProductContectController extends GetxController {
 
         if( showSubHeaderTabs.value == false ) {
           showSubHeaderTabs.value = true;
-        
-
         }
         selectedTabsIndex.value = 2;
         update();
       } else if(scrollController.position.pixels >= gk3Position){
         if (showSubHeaderTabs.value == true ) {
           // showSubHeaderTabs.value = false;
-        
         }
         selectedTabsIndex.value = 3;
         update();
@@ -156,10 +174,30 @@ class ProductContectController extends GetxController {
     update();
   }
 
+    //获取attr属性
+  setSelectedAttr() {
+    // 创建一个临时表
+    List tempList = [];
+    //遍历内容属性列表，先遍历所有商品，在遍历商品下的attr列表
+    for (var i = 0; i < pcontentAttr.length; i++) {
+      // 
+      for (var j = 0; j < pcontentAttr[i].attrList!.length; j++) {
+          // 如果商品的数据列表中商品属性是选中的（添加到购物车列表中，肯定是有被选中的）
+        if (pcontentAttr[i].attrList![j]["checked"]) { 
+          // 临时表添加商品被选中的属性名字
+          tempList.add(pcontentAttr[i].attrList![j]["title"]);
+        }
+      }
+    }
+    //selectedAttr = 拼接所有商品的Attr属性，逗号隔开
+    selectedAttr.value = tempList.join(",");
+    update();
+  }
+
   changeSelectedSubTabsIndex(index) {
     selectedSubTabsIndex.value = index;
     if(selectedSubTabsIndex.value == 2) {
-    scrollController.jumpTo(gk2Position) ;
+      scrollController.jumpTo(gk2Position) ;
     }
     update();
   }
@@ -197,6 +235,20 @@ class ProductContectController extends GetxController {
 
     print('gk3---- $gk3Position');
     
+  }
+
+  void addCart() {
+    setSelectedAttr();
+    CartServices.addCart(pcontent.value, selectedAttr.value, buyNum.value);
+    print("加入购物车");
+    Get.back();
+    Get.snackbar('提示', '加入购物车成功！');
+  }
+
+  void buy() {
+    setSelectedAttr();
+    print("立即购买");
+    Get.back();
   }
 
   void increment() => count.value++;
