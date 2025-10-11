@@ -62,9 +62,9 @@ class CartView extends GetView<CartController> {
                               Row(
                                 children: [
                                   Checkbox(
-                                      value: true,
+                                      value: controller.checkedAllBox.value,
                                       onChanged: (value) {
-                                        print(value);
+                                        controller.checkedAllFunc(!controller.checkedAllBox.value);
                                       }),
                                   const Text('全选')
                                 ],

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:xmshop/app/modules/cart/controllers/cart_controller.dart';
 import 'package:xmshop/app/modules/cart/views/cart_item_num_view.dart';
 import 'package:xmshop/app/services/sreeenAdapter.dart';
 
 class CartItemView extends GetView{
-
-  const CartItemView(this.cartItem,{super.key});
+  @override
+  final CartController controller = Get.find();
+  CartItemView(this.cartItem,{super.key});
   final Map cartItem;
 
   @override
@@ -25,8 +27,9 @@ class CartItemView extends GetView{
         children: [
           SizedBox(
             width: ScreenAdapter.width(100),
-            child: Checkbox(activeColor: Colors.red,value: false, onChanged: (value) {
-
+            child: Checkbox(activeColor: Colors.red,value: cartItem["checked"], onChanged: (value) {
+              print('客诉');
+              controller.checkCartItem(cartItem);
             }),
           ),
           Container(

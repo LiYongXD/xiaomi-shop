@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:xmshop/app/modules/cart/bindings/cart_binding.dart';
+import 'package:xmshop/app/modules/pass/codeLoginStepOne/bindings/code_login_step_one_binding.dart';
+import 'package:xmshop/app/modules/pass/codeLoginStepOne/views/code_login_step_one_view.dart';
 
 import '../modules/cart/views/cart_view.dart';
 import '../modules/cart/views/cart_view.dart';
@@ -52,5 +54,40 @@ class AppPages {
       page: () => CartView(),
       binding: CartBinding(),
     ),
+    GetPage(
+      name: _Paths.CODE_LOGIN_STEP_ONE,
+      page: () =>  CodeLoginStepOneView(),
+      binding: CodeLoginStepOneBinding(),
+    ),
+    // GetPage(
+    //   name: _Paths.CODE_LOGIN_STEP_TWO,
+    //   page: () => const CodeLoginStepTwoView(),
+    //   binding: CodeLoginStepTwoBinding(),
+    // ),
+    // GetPage(
+    //   name: _Paths.ON_STEP_LOGIN,
+    //   page: () => const OnStepLoginView(),
+    //   binding: OnStepLoginBinding(),
+    // ),
+    // GetPage(
+    //   name: _Paths.PASS_LOGIN,
+    //   page: () => const PassLoginView(),
+    //   binding: PassLoginBinding(),
+    // ),
+    // GetPage(
+    //   name: _Paths.REGISTER_STEP_ONE,
+    //   page: () => const RegisterStepOneView(),
+    //   binding: RegisterStepOneBinding(),
+    // ),
+    // GetPage(
+    //   name: _Paths.REGISTER_STEP_TWO,
+    //   page: () => const RegisterStepTwoView(),
+    //   binding: RegisterStepTwoBinding(),
+    // ),
+    // GetPage(
+    //   name: _Paths.REGISTER_STEP_THREE,
+    //   page: () => const RegisterStepThreeView(),
+    //   binding: RegisterStepThreeBinding(),
+    // ),
   ];
 }
