@@ -9,7 +9,7 @@ abstract class Routes {
   static const PRODUCT_CONTECT = _Paths.PRODUCT_CONTECT;
   static const Cart = _Paths.Cart;
   static const CODE_LOGIN_STEP_ONE = _Paths.CODE_LOGIN_STEP_ONE;
-  // static const CODE_LOGIN_STEP_TWO = _Paths.CODE_LOGIN_STEP_TWO;
+  static const CODE_LOGIN_STEP_TWO = _Paths.CODE_LOGIN_STEP_TWO;
   // static const ON_STEP_LOGIN = _Paths.ON_STEP_LOGIN;
   // static const PASS_LOGIN = _Paths.PASS_LOGIN;
   // static const REGISTER_STEP_ONE = _Paths.REGISTER_STEP_ONE;
@@ -25,7 +25,7 @@ abstract class _Paths {
   static const PRODUCT_CONTECT = '/product-contect';
   static const Cart = '/cart';
   static const CODE_LOGIN_STEP_ONE = '/code-login-step-one';
-  // static const CODE_LOGIN_STEP_TWO = '/code-login-step-two';
+  static const CODE_LOGIN_STEP_TWO = '/code-login-step-two';
   // static const ON_STEP_LOGIN = '/on-step-login';
   // static const PASS_LOGIN = '/pass-login';
   // static const REGISTER_STEP_ONE = '/register-step-one';

@@ -15,8 +15,6 @@ import '../controllers/product_contect_controller.dart';
 class ProductContectView extends GetView<ProductContectController> {
   const ProductContectView({super.key});
 
-
-
   Widget _subHeader() {
     return Obx(() => Container(
         // key: controller.gk2,

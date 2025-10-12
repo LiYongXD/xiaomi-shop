@@ -2,6 +2,9 @@ import 'package:get/get.dart';
 import 'package:xmshop/app/modules/cart/bindings/cart_binding.dart';
 import 'package:xmshop/app/modules/pass/codeLoginStepOne/bindings/code_login_step_one_binding.dart';
 import 'package:xmshop/app/modules/pass/codeLoginStepOne/views/code_login_step_one_view.dart';
+import 'package:xmshop/app/modules/pass/codeLoginStepTwo/bindings/code_login_step_two_binding.dart';
+import 'package:xmshop/app/modules/pass/codeLoginStepTwo/views/code_login_step_two_view.dart';
+import 'package:xmshop/app/modules/pass/codeLoginStepTwo/views/code_login_step_two_view_v2.dart';
 
 import '../modules/cart/views/cart_view.dart';
 import '../modules/cart/views/cart_view.dart';
@@ -59,11 +62,11 @@ class AppPages {
       page: () =>  CodeLoginStepOneView(),
       binding: CodeLoginStepOneBinding(),
     ),
-    // GetPage(
-    //   name: _Paths.CODE_LOGIN_STEP_TWO,
-    //   page: () => const CodeLoginStepTwoView(),
-    //   binding: CodeLoginStepTwoBinding(),
-    // ),
+    GetPage(
+      name: _Paths.CODE_LOGIN_STEP_TWO,
+      page: () => const CodeLoginStepTwoView(),
+      binding: CodeLoginStepTwoBinding(),
+    ),
     // GetPage(
     //   name: _Paths.ON_STEP_LOGIN,
     //   page: () => const OnStepLoginView(),
