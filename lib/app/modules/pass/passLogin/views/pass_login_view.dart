@@ -1,15 +1,15 @@
+
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
-import 'package:xmshop/app/modules/pass/codeLoginStepOne/controllers/code_login_step_one_controller.dart';
+import 'package:xmshop/app/modules/passLogin/controllers/pass_login_controller.dart';
 import 'package:xmshop/app/services/sreeenAdapter.dart';
 import 'package:xmshop/app/widget/logo.dart';
 import 'package:xmshop/app/widget/passButton.dart';
 import 'package:xmshop/app/widget/passTextField.dart';
 import 'package:xmshop/app/widget/userAgreement.dart';
 
-class CodeLoginStepOneView extends GetView<CodeLoginStepOneController> {
-  const CodeLoginStepOneView({super.key});
+class PassLoginView extends GetView<PassLoginController>{
+  const PassLoginView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,10 @@ class CodeLoginStepOneView extends GetView<CodeLoginStepOneController> {
         backgroundColor: Colors.white,
         elevation: 0,
         actions: [
-          TextButton(onPressed: () {}, child: Text('帮助')),
+          TextButton(onPressed: () {
+            
+          }, child: Text('帮助')),
+          
         ],
       ),
       body: ListView(
@@ -29,26 +32,29 @@ class CodeLoginStepOneView extends GetView<CodeLoginStepOneController> {
           PassTextField(hintText: '请输入手机号',onChanged: (value) {
             print(value);
           },),
-          // PassTextField(hintText: '密码',onChanged: (value) {
-          //   print(value);
-          // },),
-          //用户协议
+          PassTextField(hintText: '请输入密码',onChanged: (value) {
+            print(value);
+          },),
           const UserAgreement(),
-          PassButton(text: '获取验证码', onPressed: () {
-            print('获取验证码');
-            Get.toNamed('/code-login-step-two');
-          }),
+          //登录按钮
+          PassButton(
+              text: "获取验证码",
+              onPressed: () {
+                print("获取验证码");
+                Get.toNamed("/code-login-step-two");
+              }),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              TextButton(onPressed: (){
-                Get.toNamed("/register-step-one");
-              }, child: const Text("新用户注册")),
-              TextButton(onPressed: (){
-                  Get.toNamed("/pass-login");
-              }, child: const Text("账户密码登录"))
+              TextButton(onPressed: () {
+
+              }, child: Text('忘记密码')),
+              TextButton(onPressed: () {
+
+              }, child: Text('验证码登录'))
             ],
           )
+
         ],
       ),
     );

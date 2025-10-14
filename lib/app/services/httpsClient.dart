@@ -30,4 +30,14 @@ class HttpsClient {
     return tempUrl.replaceAll('\\', '/');
   }
 
+  Future post(String apiUrl, {Map? data}) async {
+    try {
+      var response = await dio.post(apiUrl,data: data);
+      return response;
+    } catch (e) {
+      print('请求超时');
+      return null;
+    }
+  }
+
 }

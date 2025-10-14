@@ -27,8 +27,8 @@ abstract class _Paths {
   static const CODE_LOGIN_STEP_ONE = '/code-login-step-one';
   static const CODE_LOGIN_STEP_TWO = '/code-login-step-two';
   // static const ON_STEP_LOGIN = '/on-step-login';
-  // static const PASS_LOGIN = '/pass-login';
-  // static const REGISTER_STEP_ONE = '/register-step-one';
-  // static const REGISTER_STEP_TWO = '/register-step-two';
-  // static const REGISTER_STEP_THREE = '/register-step-three';
+  static const PASS_LOGIN = '/pass-login';
+  static const REGISTER_STEP_ONE = '/register-step-one';
+  static const REGISTER_STEP_TWO = '/register-step-two';
+  static const REGISTER_STEP_THREE = '/register-step-three';
 }
