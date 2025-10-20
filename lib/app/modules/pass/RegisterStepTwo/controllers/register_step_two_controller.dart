@@ -63,6 +63,8 @@ class RegisterStepTwoController extends GetxController{
       'tel': tel,
       'code': editingController.text
     });
+    print('code ${tel}');
+    print('code ${editingController.text}');
     if( response != null) {
       if(response.data['success']) {
         return true;

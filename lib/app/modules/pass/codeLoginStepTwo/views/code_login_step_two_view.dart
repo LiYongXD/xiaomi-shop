@@ -3,7 +3,6 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:xmshop/app/modules/pass/codeLoginStepTwo/controllers/code_login_step_two_controller.dart';
-import 'package:xmshop/app/modules/pass/codeLoginStepTwo/controllers/code_login_step_two_controller_v2.dart';
 import 'package:xmshop/app/services/sreeenAdapter.dart';
 import 'package:xmshop/app/widget/logo.dart';
 import 'package:xmshop/app/widget/passButton.dart';

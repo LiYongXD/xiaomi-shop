@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:xmshop/app/modules/user/views/user_view.dart';
 
 class TabsController extends GetxController {
-  //TODO: Implement TabsController
   final List<Widget> pages =  [
     HomeView(),
     CategoryView(),
@@ -16,13 +15,17 @@ class TabsController extends GetxController {
     UserView(),
   ];
 
-  PageController pageController = PageController(initialPage: 3);
+  PageController pageController = Get.arguments!= null ? PageController(initialPage: Get.arguments['initialPage']): PageController(initialPage: 3);
 
   RxInt currentIndex = 3.obs;
 
   @override
   void onInit() {
     super.onInit();
+    if(Get.arguments != null) {
+      currentIndex.value = Get.arguments['initialPage'];
+      update();
+    }
   }
 
   @override
