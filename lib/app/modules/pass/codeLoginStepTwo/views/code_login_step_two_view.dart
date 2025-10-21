@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:xmshop/app/models/message.dart';
 import 'package:xmshop/app/modules/pass/codeLoginStepTwo/controllers/code_login_step_two_controller.dart';
 import 'package:xmshop/app/services/sreeenAdapter.dart';
 import 'package:xmshop/app/widget/logo.dart';
@@ -54,8 +55,14 @@ class CodeLoginStepTwoView extends GetView<CodeLoginStepTwoController> {
                 animationDuration: const Duration(milliseconds: 300),
                 enableActiveFill: true,
                 controller: controller.editingController,
-                onCompleted: (v) {
-                  print('Completed');
+                onCompleted: (v) async {
+                  FocusScope.of(context).requestFocus(FocusNode());
+                  MessageModel result = await controller.doLogin();
+                  if (result.success) {
+                    Get.offAllNamed('/tabs', arguments: {'initialPage': 4});
+                  } else {
+                    Get.snackbar('提示信息', result.message);
+                  }
                 },
                 onChanged: (value) {
                   print(value);
@@ -70,15 +77,23 @@ class CodeLoginStepTwoView extends GetView<CodeLoginStepTwoController> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TextButton(onPressed: () {}, child: Text('重新发送验证码')),
+                Obx(() => controller.seconds.value == 0
+                    ? TextButton(
+                        onPressed: () {
+                          controller.sendCode();
+                        },
+                        child: Text('重新发送验证码'))
+                    : TextButton(
+                        onPressed: null,
+                        child: Text('${controller.seconds.value}秒后重新发送'))),
                 TextButton(onPressed: () {}, child: Text('帮助'))
               ],
             ),
           ),
-          PassButton(text: '获取验证码', onPressed: () {
-            print(controller.editingController.text);
-            FocusScope.of(context).requestFocus(FocusNode());
-          })
+          // PassButton(text: '获取验证码', onPressed: () {
+          //   print(controller.editingController.text);
+          //   FocusScope.of(context).requestFocus(FocusNode());
+          // })
         ],
       ),
     );
