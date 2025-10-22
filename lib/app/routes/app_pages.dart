@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:xmshop/app/modules/cart/bindings/cart_binding.dart';
+import 'package:xmshop/app/modules/checkout/bindings/checkout_binding.dart';
+import 'package:xmshop/app/modules/checkout/views/checkout_views.dart';
 import 'package:xmshop/app/modules/pass/RegisterStepOne/bindings/register_step_one_binding.dart';
 import 'package:xmshop/app/modules/pass/RegisterStepOne/views/register_step_one_view.dart';
 import 'package:xmshop/app/modules/pass/RegisterStepThree/bindings/register_step_three_binding.dart';
@@ -35,7 +37,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.TABS;
+  static const INITIAL = Routes.CHECKOUT;
 
   static final routes = [
     GetPage(
@@ -99,6 +101,11 @@ class AppPages {
       name: _Paths.REGISTER_STEP_THREE,
       page: () => const RegisterStepThreeView(),
       binding: RegisterStepThreeBinding(),
+    ),
+    GetPage(
+      name: _Paths.CHECKOUT,
+      page: () =>  CheckoutView(),
+      binding: CheckoutBinding(),
     ),
   ];
 }
